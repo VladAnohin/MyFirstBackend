@@ -3,17 +3,17 @@ const express = require("express");
 const PORT = 3000;
 
 const app = express();
-
+app.use(express.json());
 const users = [
-  { id: 1, name: "Vlad", age: 24 },
-  { id: 2, name: "Andrey", age: 24 },
-  { id: 3, name: "Vika", age: 21 },
-  { id: 4, name: "Artur", age: 22 },
+  { id: 1, name: "Tyler", age: 31 },
+  { id: 2, name: "James", age: 26 },
+  { id: 3, name: "Jay", age: 23 },
+  { id: 4, name: "Monica", age: 35 },
 ];
 
 app.get("/", (req, res) => {
   res.json({
-    message: "hui",
+    message: "Hi",
   });
 });
 
@@ -33,6 +33,15 @@ app.get("/users/:id", (req, res) => {
 app.get("/users", (req, res) => {
   res.json(users);
 });
+
+app.post("/users", (req, res) => {
+  const newUser = req.body;
+  users.push(newUser);
+  res.json({
+    message: "Добавил!",
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`server launched on http://localhost:${PORT}`);
 });
