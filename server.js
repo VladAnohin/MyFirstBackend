@@ -4,7 +4,7 @@ const PORT = 3000;
 
 const app = express();
 app.use(express.json());
-const users = [
+let users = [
   { id: 1, name: "Tyler", age: 31 },
   { id: 2, name: "James", age: 26 },
   { id: 3, name: "Jay", age: 23 },
@@ -36,12 +36,20 @@ app.get("/users", (req, res) => {
 
 app.post("/users", (req, res) => {
   const newUser = req.body;
+  const lastUser = users[users.length - 1];
+  newUser.id = lastUser.id + 1;
   users.push(newUser);
   res.json({
     message: "Добавил!",
   });
 });
-
+app.delete("/users/:id", (req, res) => {
+  const userId = +req.params.id;
+  users = users.filter((u) => u.id !== userId);
+  res.json({
+    message: "Deleted",
+  });
+});
 app.listen(PORT, () => {
   console.log(`server launched on http://localhost:${PORT}`);
 });
