@@ -50,14 +50,21 @@ app.delete("/users/:id", (req, res) => {
     message: "Deleted",
   });
 });
-app.patch("/users/2", (req, res) => {
+app.patch("/users/:id", (req, res) => {
   const userId = +req.params.id;
-  const user = users.find(userId);
+  const user = users.find((u) => u.id === userId);
   if (!user) {
     return res.status(404).json({
       message: `user doesn't exist`,
     });
   }
+  const data = req.body;
+  user.name = data.name;
+  user.age = data.age;
+  res.json({
+    name: `${data.name}`,
+    age: `${data.age}`,
+  });
 });
 app.listen(PORT, () => {
   console.log(`server launched on http://localhost:${PORT}`);
